@@ -11,4 +11,5 @@ output "gitlab_db_instance_username" {
 output "gitlab_db_instance_password" {
   description = "The database password (this password may be old, because Terraform doesn't track it after initial creation)"
   value       = module.gitlab_rds_db.this_db_instance_password
+  sensitive   = true
 }
