@@ -6,9 +6,9 @@ module "gitlab_rds_db" {
   multi_az   = true
 
   engine               = "postgres"
-  engine_version       = "10.14"
-  major_engine_version = "10"
-  family               = "postgres10"
+  engine_version       = "11.9"
+  major_engine_version = "11"
+  family               = "postgres11"
 
   instance_class    = var.gitlab_rds_db_flavor
   allocated_storage = var.gitlab_rds_db_size
