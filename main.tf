@@ -39,7 +39,7 @@ resource "aws_ssm_parameter" "gitlab_db_instance_endpoint" {
   name        = "/gitlab/${var.environment}/rds/endpoint"
   description = "The database endpoint"
   type        = "String"
-  value       = module.gitlab_rds_db.this_db_instance_endpoint
+  value       = module.gitlab_rds_db.this_db_instance_address
 
   tags = {
     Terraform   = "true"
