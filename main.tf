@@ -28,8 +28,45 @@ module "gitlab_rds_db" {
   tags = {
     Terraform   = "true"
     Environment = var.environment
+    Application = "gitlab"
   }
 
   # Database Deletion Protection
   deletion_protection = false
+}
+
+resource "aws_ssm_parameter" "gitlab_db_instance_endpoint" {
+  name        = "/gitlab/${var.environment}/rds/endpoint"
+  description = "The database endpoint"
+  type        = "String"
+  value       = module.gitlab_rds_db.this_db_instance_endpoint
+
+  tags = {
+    Terraform   = "true"
+    Environment = var.environment
+  }
+}
+
+resource "aws_ssm_parameter" "gitlab_db_instance_username" {
+  name        = "/gitlab/${var.environment}/rds/username"
+  description = "The database username"
+  type        = "String"
+  value       = module.gitlab_rds_db.this_db_instance_username
+
+  tags = {
+    Terraform   = "true"
+    Environment = var.environment
+  }
+}
+
+resource "aws_ssm_parameter" "gitlab_db_instance_password" {
+  name        = "/gitlab/${var.environment}/rds/password"
+  description = "The database password"
+  type        = "SecureString"
+  value       = module.gitlab_rds_db.this_db_instance_password
+
+  tags = {
+    Terraform   = "true"
+    Environment = var.environment
+  }
 }
