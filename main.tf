@@ -35,11 +35,23 @@ module "gitlab_rds_db" {
   deletion_protection = false
 }
 
+resource "aws_ssm_parameter" "gitlab_db_instance_address" {
+  name        = "/gitlab/${var.environment}/rds/address"
+  description = "The database address"
+  type        = "String"
+  value       = module.gitlab_rds_db.this_db_instance_address
+
+  tags = {
+    Terraform   = "true"
+    Environment = var.environment
+  }
+}
+
 resource "aws_ssm_parameter" "gitlab_db_instance_endpoint" {
   name        = "/gitlab/${var.environment}/rds/endpoint"
   description = "The database endpoint"
   type        = "String"
-  value       = module.gitlab_rds_db.this_db_instance_address
+  value       = module.gitlab_rds_db.this_db_instance_endpoint
 
   tags = {
     Terraform   = "true"

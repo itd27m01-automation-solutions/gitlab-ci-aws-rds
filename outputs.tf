@@ -1,3 +1,8 @@
+output "gitlab_db_instance_address" {
+  description = "The connection address"
+  value       = module.gitlab_rds_db.this_db_instance_address
+}
+
 output "gitlab_db_instance_endpoint" {
   description = "The connection endpoint"
   value       = module.gitlab_rds_db.this_db_instance_endpoint
