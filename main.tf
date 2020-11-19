@@ -2,7 +2,7 @@ module "gitlab_rds_db" {
   source  = "terraform-aws-modules/rds/aws"
   version = "~> 2.0"
 
-  identifier = "gitlab-postgres-db"
+  identifier = "gitlab-postgres-${var.environment}-db"
   multi_az   = true
 
   engine               = "postgres"
