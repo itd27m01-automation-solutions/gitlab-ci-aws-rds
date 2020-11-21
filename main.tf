@@ -1,3 +1,10 @@
+resource "random_string" "random" {
+  length = 5
+  upper  = false
+  number = false
+  special = false
+}
+
 module "gitlab_rds_db" {
   source  = "terraform-aws-modules/rds/aws"
   version = "~> 2.0"
@@ -14,7 +21,7 @@ module "gitlab_rds_db" {
   allocated_storage = var.gitlab_rds_db_size
   storage_encrypted = false
 
-  name     = "gitlab"
+  name     = "gitlab-${var.environment}-${random_string.random.result}"
   port     = "5432"
   username = var.gitlab_rds_db_user
   password = var.gitlab_rds_db_password
@@ -33,6 +40,18 @@ module "gitlab_rds_db" {
 
   # Database Deletion Protection
   deletion_protection = false
+}
+
+resource "aws_ssm_parameter" "gitlab_db_instance_db" {
+  name        = "/gitlab/${var.environment}/rds/db"
+  description = "The database endpoint"
+  type        = "String"
+  value       = module.gitlab_rds_db.this_db_instance_name
+
+  tags = {
+    Terraform   = "true"
+    Environment = var.environment
+  }
 }
 
 resource "aws_ssm_parameter" "gitlab_db_instance_address" {
