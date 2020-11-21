@@ -21,7 +21,7 @@ module "gitlab_rds_db" {
   allocated_storage = var.gitlab_rds_db_size
   storage_encrypted = false
 
-  name     = "gitlab-${var.environment}-${random_string.random.result}"
+  name     = "gitlab${var.environment}${random_string.random.result}"
   port     = "5432"
   username = var.gitlab_rds_db_user
   password = var.gitlab_rds_db_password
